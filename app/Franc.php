@@ -2,23 +2,16 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use \App\Money;
 
-class Franc extends Model
+class Franc extends Money
 {
-
-    private $amount;
-
     public function __construct(int $amount) {
         $this->amount = $amount;
     }
 
     public function times(int $multiplier) {
         return new Franc($this->amount * $multiplier);
-    }
-
-    public function equals(Franc $franc) {
-        return $this->amount == $franc->amount;
     }
 }
 
