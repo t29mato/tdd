@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\MoneyModel;
+use App\Money;
 use App\Dollar;
 use App\Franc;
 
@@ -19,6 +20,7 @@ class MoneyModelTest extends TestCase
      * amountをprivateにする
      * 5CHF * 2 = 10CHF
      * equalsの一般化
+     * FrancとDollarを比較する
      *
      * [x]
      * Dollarの副作用どうする？
@@ -27,21 +29,20 @@ class MoneyModelTest extends TestCase
      * nullとの透過性比較
      * 他のオブジェクトとの等価性比較
      * timesの一般化
-     * FrancとDollarを比較する
      */
 
     public function testMultiplication() {
-        $five = new Dollar(5);
-        $this->assertEquals(new Dollar(10), $five->times(2));
-        $this->assertEquals(new Dollar(15), $five->times(3));
+        $five = Money::dollar(5);
+        $this->assertEquals(Money::dollar(10), $five->times(2));
+        $this->assertEquals(Money::dollar(15), $five->times(3));
     }
 
     public function testEquality() {
-        $this->assertTrue((new Dollar(5))->equals(new Dollar(5)));
-        $this->assertFalse((new Dollar(5))->equals(new Dollar(6)));
-        $this->assertTrue((new Franc(5))->equals(new Franc(5)));
-        $this->assertFalse((new Franc(5))->equals(new Franc(6)));
-        $this->assertFalse((new Dollar(5))->equals(new Franc(5)));
+        $this->assertTrue((Money::dollar(5))->equals(Money::dollar(5)));
+        $this->assertFalse((Money::dollar(5))->equals(Money::dollar(6)));
+        $this->assertTrue((Money::franc(5))->equals(Money::franc(5)));
+        $this->assertFalse((Money::franc(5))->equals(new Franc(6)));
+        $this->assertFalse((Money::dollar(5))->equals(Money::franc(5)));
     }
 
     public function testFrancMultiplication() {
