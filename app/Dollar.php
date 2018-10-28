@@ -16,5 +16,9 @@ class Dollar extends Model
     public function times(int $multiplier) {
         return new Dollar($this->amount * $multiplier);
     }
+
+    public function equals(Dollar $dollar) {
+        return $this->amount == $dollar->amount;
+    }
 }
 
