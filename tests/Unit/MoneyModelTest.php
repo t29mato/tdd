@@ -21,15 +21,15 @@ class MoneyModelTest extends TestCase
      * 5CHF * 2 = 10CHF
      * equalsの一般化
      * FrancとDollarを比較する
+     * 通貨の概念
+     * Dollarの副作用どうする？
      *
      * [x]
-     * Dollarの副作用どうする？
      * Moneyの丸め処理どうする？
      * DollarとFrancの重複
      * nullとの透過性比較
      * 他のオブジェクトとの等価性比較
      * timesの一般化
-     * 通過の概念
      */
 
     public function testMultiplication() {
@@ -55,5 +55,9 @@ class MoneyModelTest extends TestCase
     public function testCurrency() {
         $this->assertEquals('USD', Money::dollar(1)->currency());
         $this->assertEquals('CHF', Money::franc(1)->currency());
+    }
+
+    public function testDifferentClassEquality() {
+        $this->assertTrue((new Money(10, 'CHF'))->equals(new Franc(10, 'CHF')));
     }
 }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-abstract class Money extends Model
+class Money extends Model
 {
     protected $amount;
     protected $currency;
@@ -12,19 +12,21 @@ abstract class Money extends Model
         $this->amount = $amount;
         $this->currency = $currency;
     }
-    abstract function times(int $multiplier): Money;
+    function times(int $multiplier): Money {
+        return new Money($this->amount * $multiplier, $this->currency);
+    }
     function currency(): string{
         return $this->currency;
     }
     public function equals(Money $money) {
         return $this->amount == $money->amount
-        && get_class($this) == get_class($money);
+        && $this->currency() == $money->currency();
     }
     static function dollar(int $amount): Money {
-        return new Dollar($amount, 'USD');
+        return new Money($amount, 'USD');
     }
     static function franc(int $amount): Money {
-        return new Franc($amount, 'CHF');
+        return new Money($amount, 'CHF');
     }
 }
 
