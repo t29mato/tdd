@@ -29,6 +29,7 @@ class MoneyModelTest extends TestCase
      * nullとの透過性比較
      * 他のオブジェクトとの等価性比較
      * timesの一般化
+     * 通過の概念
      */
 
     public function testMultiplication() {
@@ -41,13 +42,18 @@ class MoneyModelTest extends TestCase
         $this->assertTrue((Money::dollar(5))->equals(Money::dollar(5)));
         $this->assertFalse((Money::dollar(5))->equals(Money::dollar(6)));
         $this->assertTrue((Money::franc(5))->equals(Money::franc(5)));
-        $this->assertFalse((Money::franc(5))->equals(new Franc(6)));
+        $this->assertFalse((Money::franc(5))->equals(Money::franc(6)));
         $this->assertFalse((Money::dollar(5))->equals(Money::franc(5)));
     }
 
     public function testFrancMultiplication() {
-        $five = new Franc(5);
-        $this->assertEquals(new Franc(10), $five->times(2));
-        $this->assertEquals(new Franc(15), $five->times(3));
+        $five = Money::franc(5);
+        $this->assertEquals(Money::franc(10), $five->times(2));
+        $this->assertEquals(Money::franc(15), $five->times(3));
+    }
+
+    public function testCurrency() {
+        $this->assertEquals('USD', Money::dollar(1)->currency());
+        $this->assertEquals('CHF', Money::franc(1)->currency());
     }
 }
