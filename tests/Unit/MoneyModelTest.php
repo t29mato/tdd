@@ -18,15 +18,16 @@ class MoneyModelTest extends TestCase
      * equals()
      * amountをprivateにする
      * 5CHF * 2 = 10CHF
+     * equalsの一般化
      *
      * [x]
      * Dollarの副作用どうする？
      * Moneyの丸め処理どうする？
+     * DollarとFrancの重複
      * nullとの透過性比較
      * 他のオブジェクトとの等価性比較
-     * DollarとFrancの重複
-     * equalsの一般化
      * timesの一般化
+     * FrancとDollarを比較する
      */
 
     public function testMultiplication() {
@@ -40,6 +41,7 @@ class MoneyModelTest extends TestCase
         $this->assertFalse((new Dollar(5))->equals(new Dollar(6)));
         $this->assertTrue((new Franc(5))->equals(new Franc(5)));
         $this->assertFalse((new Franc(5))->equals(new Franc(6)));
+        $this->assertFalse((new Dollar(5))->equals(new Franc(5)));
     }
 
     public function testFrancMultiplication() {
