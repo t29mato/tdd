@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dollar extends Model
 {
 
-    public $amount;
+    private $amount;
 
     public function __construct(int $amount) {
         $this->amount = $amount;
